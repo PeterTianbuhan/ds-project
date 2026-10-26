@@ -64,9 +64,11 @@ Node.js 22.12+。源码不包含 DSH 宿主，也不需要把本机 DSH 或个�
 git clone https://github.com/PeterTianbuhan/ds-project.git
 cd ds-project
 npm ci --legacy-peer-deps
-npm test
 npm run package
+npm test
 ```
+
+测试包含静态页面的服务验收，因此先构建打包，再运行测试。
 
 生成的 `ds-project-0.8.8.tgz` 可按上述方式安装。`private: true` 仅用于防止误发到 npm；源码与 GitHub Release 公开。
 

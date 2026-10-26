@@ -1,0 +1,21 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtempSync,readFileSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {once} from 'node:events';
+import {request} from 'node:http';
+import {ProjectEngine} from '../host/engine.js';
+import {startServer} from '../host/server.js';
+test('loopback API requires token, rejects foreign origin, serves UI and persists mutations',async t=>{
+  const home=mkdtempSync(join(tmpdir(),'dsproject-http-')),engine=new ProjectEngine(home,{}),server=startServer(engine,0);
+  t.after(()=>{server.closeAllConnections();server.close();rmSync(home,{recursive:true,force:true});});await once(server,'listening');
+  const {url,token}=JSON.parse(readFileSync(join(home,'connection.json'))),headers={Authorization:'Bearer '+token,'Content-Type':'application/json'};
+  assert.equal((await fetch(url+'/api/state')).status,401);
+  assert.equal((await fetch(url+'/api/state',{headers:{...headers,Origin:'https://elsewhere.example'}})).status,403);
+  const hostile=await new Promise((resolve,reject)=>{const req=request(url+'/api/state',{headers:{...headers,Host:'attacker.example'}},res=>{res.resume();resolve(res.statusCode);});req.on('error',reject);req.end();});
+  assert.equal(hostile,403);
+  const page=await fetch(url);assert.equal(page.status,200);assert.ok(page.headers.get('content-security-policy').includes("frame-ancestors 'none'"));
+  const created=await fetch(url+'/api/projects',{method:'POST',headers,body:JSON.stringify({name:'HTTP test'})});assert.equal(created.status,200);
+  const state=await (await fetch(url+'/api/state',{headers})).json();assert.equal(state.projects[0].name,'HTTP test');assert.equal(state.requests,undefined);
+});

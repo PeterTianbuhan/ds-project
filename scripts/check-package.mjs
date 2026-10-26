@@ -1,0 +1,12 @@
+import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import assert from 'node:assert/strict';
+const pkg=JSON.parse(readFileSync('package.json','utf8'));
+const archive=process.argv[2]??`${pkg.name}-${pkg.version}.tgz`;
+const files=execFileSync('tar',['-tzf',archive],{encoding:'utf8'}).trim().split('\n');
+const version=`runtime/v${pkg.version}`;
+for(const file of files)assert.ok(file.startsWith(`package/${version}/`)||file.startsWith('package/dist/')||['package/package.json','package/README.md','package/cordis.patch.yml','package/LICENSE','package/THIRD_PARTY_NOTICES.md'].includes(file),`Unexpected package entry: ${file}`);
+const packed=JSON.parse(execFileSync('tar',['-xOzf',archive,'package/package.json'],{encoding:'utf8'}));
+for(const entry of [packed.main,packed.exports['.'],packed.exports['./client']])assert.ok(files.includes('package/'+entry.replace(/^\.\//,'')),`Missing entry: ${entry}`);
+for(const required of ['LICENSE','THIRD_PARTY_NOTICES.md'])assert.ok(files.includes('package/'+required));
+console.log(`Verified ${archive}: ${files.length} allowlisted files, both runtime entry points, license notices`);

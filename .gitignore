@@ -1,0 +1,25 @@
+node_modules/
+dist/
+dist-client/
+*.tgz
+.DS_Store
+.build/
+native-dist/
+runtime/
+
+.playwright-cli/
+output/playwright/
+
+# Local development history and private acceptance records
+.codex/
+design/
+native/
+Package.swift
+script/
+docs/verification.md
+docs/live-evidence.json
+docs/live-project-id.txt
+.env
+.env.*
+!.env.example
+coverage/

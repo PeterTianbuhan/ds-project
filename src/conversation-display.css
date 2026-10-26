@@ -1,0 +1,56 @@
+/* DSH rc.3 semantic DOM adapter, scoped to our owned conversation occurrence.
+   Keep the native message/composer/approval renderers and the complete log.
+   No generated class names or global DSH settings are changed. */
+[data-ds-project-display] {height:100%;min-height:0;display:flex;flex-direction:column}
+[data-ds-project-display] > [data-slot] {flex:1;min-height:0;display:flex;flex-direction:column}
+
+/* Flatten native process disclosures so replies and errors remain visible in
+   both modes, irrespective of DSH's global completed-turn folding preference. */
+[data-ds-project-display] :is([data-step-process],[data-step-process-body],[data-turn-process-hidden],[data-turn-process-inline]) {
+  display:block!important;content-visibility:visible!important;height:auto!important;max-height:none!important;overflow:visible!important;opacity:1!important;mask-image:none!important;
+}
+[data-ds-project-display] [data-step-process] > :first-child,
+[data-ds-project-display] [data-process-activity],
+[data-ds-project-display] [data-chat-flow-kind="turn-process"] {display:none!important}
+
+/* Plain replies, attachments, approvals, questions, retries and terminal errors keep
+   their native renderers. All tool calls, including failed calls, and reasoning are hidden. */
+[data-ds-project-display="simple"] [data-chat-group-part="reasoning"],
+[data-ds-project-display="simple"] [data-variant="think"],
+[data-ds-project-display="simple"] [data-chat-flow-kind="tool-call"],
+[data-ds-project-display="simple"] [data-step-process]:not(:has([data-chat-flow-kind="ds-project-communication"],[data-chat-flow-kind="ds-project-question-answer"],[data-chat-flow-kind="question-reply"],[data-chat-flow-kind="turn-error"],[data-chat-flow-kind="turn-max-tokens"],[data-chat-flow-kind="model-retry"])),
+[data-ds-project-display="simple"] :is([data-chat-flow-kind="context"],[data-chat-flow-kind="system-prompt"],[data-chat-flow-kind="compaction"],[data-chat-flow-kind="manual-compaction"],[data-chat-flow-kind="turn-trigger"]),
+[data-ds-project-display="simple"] [data-testid="todo-panel"] {display:none!important}
+
+.ds-project-todos {max-width:100%;border:1px solid var(--dsw-alias-border-l1,#444);border-radius:14px;padding:12px 16px;margin:0 16px 12px;color:var(--dsw-alias-label-primary,inherit);font-size:14px}
+.ds-project-todo-heading {display:flex;align-items:center;gap:12px;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer;width:100%;text-align:left}
+.ds-project-todo-heading span {margin-left:auto;opacity:.55;font-size:12px}
+.ds-project-todos ul {list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px;max-height:240px;overflow:auto}
+.ds-project-todos li {display:flex;align-items:flex-start;gap:9px;line-height:1.5;overflow-wrap:anywhere}
+.ds-project-todos li svg {flex:none;margin-top:3px}
+.ds-project-todos li[data-status="completed"] {opacity:.55}
+.ds-project-todos li[data-status="in_progress"] svg {color:#4d6bfe}
+
+/* DSH's sidebar preview requires its root conversation seat, which is absent
+   in this embedded project panel. Keep native application-open actions; omit
+   the unsupported whole-card preview gesture and its hover hint. */
+[data-ds-project-display] [data-presented-file] > button[title] {display:none!important}
+[data-ds-project-display] [data-presented-description]:not([role="status"]) > :first-child {display:inline!important}
+[data-ds-project-display] [data-presented-description]:not([role="status"]) > :nth-child(2) {display:none!important}
+
+/* Both native conversations use the same DSH typography and content gutters. */
+[data-ds-project-display]{font-family:var(--dsh-font-family-text,var(--ds-font-family-base,inherit));font-size:var(--dsh-content-font-size,14px);line-height:calc(24px + var(--dsh-content-font-delta,0px));--dsh-composer-side-clearance:0px}
+.ds-project-todos{font:inherit;line-height:inherit}
+.ds-project-answer{display:flex;justify-content:flex-end;padding:8px 0}
+.ds-project-answer dl{max-width:85%;margin:0;padding:12px 16px;border-radius:16px;background:var(--dsw-specific-bubble,#eef2ff);color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
+.ds-project-answer dl>div+div{margin-top:12px}
+.ds-project-answer dt{font-size:var(--dsh-content-font-size-secondary,13px);color:var(--dsw-alias-label-secondary);line-height:1.5}
+.ds-project-answer dd{margin:4px 0 0;white-space:pre-wrap}
+
+.ds-project-communication{border:1px solid var(--dsw-alias-border-l1,#444);border-radius:12px;padding:10px 14px;margin:8px 0;font-size:var(--dsh-content-font-size-secondary,13px);color:var(--dsw-alias-label-secondary);overflow-wrap:anywhere}
+.ds-project-communication summary{cursor:pointer;line-height:1.6}
+.ds-project-communication button{border:0;background:none;color:#4d6bfe;font:inherit;padding:0;cursor:pointer;text-align:left}
+.ds-project-communication button:hover{text-decoration:underline}
+.ds-project-communication strong{font-weight:500;color:var(--dsw-alias-label-primary)}
+.ds-project-communication small{margin-left:8px}
+.ds-project-communication>div{white-space:pre-wrap;margin-top:8px;color:var(--dsw-alias-label-primary)}

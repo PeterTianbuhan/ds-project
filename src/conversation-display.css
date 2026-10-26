@@ -13,13 +13,13 @@
 [data-ds-project-display] [data-process-activity],
 [data-ds-project-display] [data-chat-flow-kind="turn-process"] {display:none!important}
 
-/* Plain replies, attachments, approvals, questions, retries and terminal errors keep
+/* Plain replies, attachments, approvals, questions, compaction, retries and terminal errors keep
    their native renderers. All tool calls, including failed calls, and reasoning are hidden. */
 [data-ds-project-display="simple"] [data-chat-group-part="reasoning"],
 [data-ds-project-display="simple"] [data-variant="think"],
 [data-ds-project-display="simple"] [data-chat-flow-kind="tool-call"],
-[data-ds-project-display="simple"] [data-step-process]:not(:has([data-chat-flow-kind="ds-project-communication"],[data-chat-flow-kind="ds-project-question-answer"],[data-chat-flow-kind="question-reply"],[data-chat-flow-kind="turn-error"],[data-chat-flow-kind="turn-max-tokens"],[data-chat-flow-kind="model-retry"])),
-[data-ds-project-display="simple"] :is([data-chat-flow-kind="context"],[data-chat-flow-kind="system-prompt"],[data-chat-flow-kind="compaction"],[data-chat-flow-kind="manual-compaction"],[data-chat-flow-kind="turn-trigger"]),
+[data-ds-project-display="simple"] [data-step-process]:not(:has([data-chat-flow-kind="compaction"],[data-chat-flow-kind="manual-compaction"],[data-chat-flow-kind="ds-project-communication"],[data-chat-flow-kind="ds-project-question-answer"],[data-chat-flow-kind="question-reply"],[data-chat-flow-kind="turn-error"],[data-chat-flow-kind="turn-max-tokens"],[data-chat-flow-kind="model-retry"])),
+[data-ds-project-display="simple"] :is([data-chat-flow-kind="context"],[data-chat-flow-kind="system-prompt"],[data-chat-flow-kind="turn-trigger"]),
 [data-ds-project-display="simple"] [data-testid="todo-panel"] {display:none!important}
 
 .ds-project-todos {max-width:100%;border:1px solid var(--dsw-alias-border-l1,#444);border-radius:14px;padding:12px 16px;margin:0 16px 12px;color:var(--dsw-alias-label-primary,inherit);font-size:14px}

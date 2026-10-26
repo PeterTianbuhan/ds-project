@@ -1,11 +1,11 @@
 {
   "name": "ds-project",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "private": true,
   "type": "module",
-  "main": "runtime/v0.8.8/index.js",
+  "main": "runtime/v0.8.9/index.js",
   "files": [
-    "runtime/v0.8.8",
+    "runtime/v0.8.9",
     "dist",
     "cordis.patch.yml",
     "README.md",
@@ -13,9 +13,9 @@
     "THIRD_PARTY_NOTICES.md"
   ],
   "exports": {
-    ".": "./runtime/v0.8.8/index.js",
+    ".": "./runtime/v0.8.9/index.js",
     "./package.json": "./package.json",
-    "./client": "./runtime/v0.8.8/client.js"
+    "./client": "./runtime/v0.8.9/client.js"
   },
   "scripts": {
     "dev": "vite --host 127.0.0.1",

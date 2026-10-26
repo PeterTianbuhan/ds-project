@@ -10,17 +10,17 @@
 
 先安装并配置好 DeepSeek Harness，确认普通会话能正常使用模型。插件沿用宿主的模型、账号、工具与权限，无需填写另一份 API Key。
 
-1. 从 [Releases](https://github.com/PeterTianbuhan/ds-project/releases) 下载 `ds-project-0.8.8.tgz` 到下载目录。
+1. 从 [Releases](https://github.com/PeterTianbuhan/ds-project/releases) 下载 `ds-project-0.8.9.tgz` 到下载目录。
 2. 等正在执行的任务结束，然后安装：
 
 ```sh
-dsh plugin --profile desktop add "$HOME/Downloads/ds-project-0.8.8.tgz"
+dsh plugin --profile desktop add "$HOME/Downloads/ds-project-0.8.9.tgz"
 ```
 
 如果 macOS 终端找不到 `dsh`，使用桌面 App 自带的 CLI：
 
 ```sh
-"/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh" plugin --profile desktop add "$HOME/Downloads/ds-project-0.8.8.tgz"
+"/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh" plugin --profile desktop add "$HOME/Downloads/ds-project-0.8.9.tgz"
 ```
 
 3. 重启 DeepSeek Harness，点击左侧 **项目**，新建项目并选择本机工作目录。
@@ -35,7 +35,7 @@ dsh plugin --profile desktop add "$HOME/Downloads/ds-project-0.8.8.tgz"
 
 - **主对话 + 线程**：主入口保留在左侧，右侧查看线程和继续追问；中间分隔线可拖动。
 - **线程通信**：简洁模式显示派发、转发与回报卡片。点击线程名打开对应对话，展开查看完整消息。
-- **简洁 / 全部展示**：默认显示正文、待办、成果、提问和审批，隐藏推理与全部工具调用，包括失败的调用。选择“全部展示 · DSH”查看原始过程。会话级错误仍显示。
+- **简洁 / 全部展示**：默认显示正文、待办、成果、提问和审批，隐藏推理与全部工具调用，包括失败的调用。选择“全部展示 · DSH”查看原始过程。会话级错误和手动／自动压缩提示仍显示，压缩完成后可展开查看摘要。
 - **模型与权限**：直接复用 DSH 原生输入框、模型选择器、附件和权限控件。模型跟随会话，新线程继承发起会话的模型选择。
 - **线程状态**：按 Waiting on you / Working / Idle / Resolved 分组。左侧圆圈可多选，支持批量 Resolve / Reopen；运行中的线程先用输入框的停止按钮停止。
 - **记忆**：直接说“记住”或“忘记”；点击项目名称进入设置，查看和编辑项目指令、`MEMORY.md` 及主题记忆文件。
@@ -70,7 +70,7 @@ npm test
 
 测试包含静态页面的服务验收，因此先构建打包，再运行测试。
 
-生成的 `ds-project-0.8.8.tgz` 可按上述方式安装。`private: true` 仅用于防止误发到 npm；源码与 GitHub Release 公开。
+生成的 `ds-project-0.8.9.tgz` 可按上述方式安装。`private: true` 仅用于防止误发到 npm；源码与 GitHub Release 公开。
 
 - `host/`：线程调度、上下文、记忆、资料及 API。
 - `index.js`、`cordis.patch.yml`：DSH 插件和会话模板。
